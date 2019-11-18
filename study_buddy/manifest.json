@@ -2,7 +2,7 @@
     "name": "Studdy Buddy",
     "version": "0.1",
     "description": "An extension to help you take breaks over periods of time while studying",
-    "permissions" : ["webRequest", "webRequestBlocking", "https://*.twitter.com/*", "declarativeContent","storage"],
+    "permissions" : ["webRequest", "webRequestBlocking",  "http://*/*","https://*/*", "declarativeContent","storage"],
     "background": {
         "scripts": ["background.js"],
         "persistent": true
@@ -15,6 +15,12 @@
             "48": "images/get_started48.png",
             "128": "images/get_started128.png"
           }
+      },
+      "icons": {
+        "16": "images/get_started16.png",
+        "32": "images/get_started32.png",
+        "48": "images/get_started48.png",
+        "128": "images/get_started128.png"
       },
     "options_page": "options.html",
     "manifest_version": 2
