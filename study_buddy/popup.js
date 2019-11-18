@@ -6,7 +6,7 @@ function message(val){
     $("#urlbutton").click(function(){
         chrome.storage.sync.get('urls', function(result) { 
             var update = result.urls;
-            update = update.concat('https://*.'+ $("#urlinput").val()+'.com/*' )  
+            update = update.concat('https://*.'+ $("#urlinput").val()+'/*' )  
             console.log(update[update.length-1])
             chrome.storage.sync.set({'urls': update}, function() {
                 // Notify that we saved.
