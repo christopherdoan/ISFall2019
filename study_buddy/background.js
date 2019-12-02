@@ -1,5 +1,5 @@
 //the chrome extensions event handler: constantly listens for browser events
-var webs = ["https://*.reddit.com/*"];
+var webs = ["https://*.chrisdoan.com/*"];
 
 chrome.storage.sync.set({'urls': webs}, function() {
     console.log('Value is set to ' + webs);
@@ -9,10 +9,11 @@ chrome.storage.sync.set({'urls': webs}, function() {
     chrome.storage.sync.get('urls', function(result) {
     var webs = result.urls
     chrome.webRequest.onBeforeRequest.addListener(function() {
-      return {cancel: true,};
+      return {redirectUrl: chrome.runtime.getURL("blocked.html")};
       },
       {
-      urls: webs
+      urls: webs,
+      types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
       },
       ["blocking"]
   );
