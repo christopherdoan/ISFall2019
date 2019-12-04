@@ -1,0 +1,55 @@
+.collapsible {
+    background-color: rgb(226, 216, 216);
+    color: black;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: rgb(180, 170, 170);
+  }
+  
+  .content {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.05s ease-out;
+    text-align: center;
+  }
+
+  #counter {
+    margin: 0 0 0.5em;
+    font-size: 2.5em;
+    text-align: center;
+  }
+  #switch {
+    min-width: 90px;
+    padding: 0.5em 0.75em;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(97, 97, 97);
+    font-size: 1.4em;
+    text-transform: capitalize;
+    text-align: center;
+  }
+  #switch.is-not-paused {
+    color: black;
+  }
+  #switch.is-paused {
+    color: black;
+    background-color: rgb(97, 97, 97);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .buttonHolder{ text-align: center;
+  padding: 0.5em 0.75em; }

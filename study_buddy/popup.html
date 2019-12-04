@@ -1,17 +1,27 @@
 <!-- popup.html provides the extension with a UI for the user-->
 <!doctype html>
   <html>
+    <link rel="stylesheet" type="text/css" href="popup.css">
     <body>    
-      <h1>Study Buddy</h1>
-      <h2>Add a website to block:</h2>
-      <span class="message"></span>
+      <h1 align = 'center'>Study Buddy</h1>
       <hr>
-      <div class="inputbox">
-        <span>Ex: For websites like www.reddit.com enter "reddit.com"</span>
-          <input type="text" id="urlinput">
-          <button id="urlbutton">Save</button>
-      </div>
-      <script src="jquery-3.4.1.min.js"></script>
-      <script type="text/javascript" src="popup.js"></script>
+      <div class="buttonHolder">
+          <p id="counter">&nbsp;</p>
+          <button id="switch" class="is-paused">Start</button>
+        </div>
+      <button type="button" class="collapsible">Add Websites</button>
+        <div class="content">
+          <h2>Add a website to block:</h2>
+              <span class="message"></span>
+              <hr>
+              <div class="inputbox">
+                <span>Ex: For websites like www.reddit.com enter "reddit.com"</span>
+                  <input type="text" id="urlinput">
+                  <button id="urlbutton">Save</button>
+              </div>
+              <script src="helpers.js"></script>
+              <script src="jquery-3.4.1.min.js"></script>
+              <script type="text/javascript" src="popup.js"></script>
+        </div>
   </body>
   </html> 
