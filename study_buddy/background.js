@@ -1,8 +1,13 @@
 //the chrome extensions event handler: constantly listens for browser events
+
+//-----------------------SETUP AND INITIALIZE VARIABLES ----------------------------------------------------
+
+//initialize variables for the countdown timer in the popup
 let date = Date.now();
-let countdownMaxInMin = 0.1;
+let countdownMaxInMin = 60;
 let countdownMaxInSec = countdownMaxInMin * 60;
 let countdownMaxInMS = countdownMaxInSec * 1000;
+let wait;
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
   chrome.declarativeContent.onPageChanged.addRules([{
@@ -11,43 +16,51 @@ chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
   }]);
 });
 
+// in chrome.storage.local set some variables for timer
 chrome.storage.local.set({
   date: date,
   isPaused: false,
-  countdownMaxInMin: countdownMaxInMin
+  countdownMaxInMin: countdownMaxInMin,
+  reset: false,
+  next: 0
 });
 
-clearAndCreateAlarm(countdownMaxInMin,countdownMaxInMin);
 
+// list to hold blocked websites
+var webs = ["https://*.'chrisdoan/*"];
 
-var webs = ["https://*.reddit.com/*"];
+// set urls in chrome storage to the above list
+chrome.storage.sync.set({'urls': webs}, function() {});
 
-chrome.storage.sync.set({'urls': webs}, function() {
-    console.log('Value is set to ' + webs);
-  });
-
-
-    chrome.storage.onChanged.addListener(function() {
-      chrome.storage.sync.get(['urls', 'enable'], function(result) {
-      var webs = result.urls
-      chrome.webRequest.onBeforeRequest.addListener(function() {
-        return {redirectUrl: chrome.runtime.getURL("blocked.html")};
-        },
-        {
-        urls: webs,
-        types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
-        },
-        ["blocking"]
+chrome.storage.onChanged.addListener(function() {
+  chrome.storage.sync.get(['urls', 'enable'], function(result) {
+    var webs = result.urls;
+    webs = result.urls;
+    chrome.webRequest.onBeforeRequest.addListener(function() {
+      console.log('this is an instance of the blocker')
+      return {redirectUrl: chrome.runtime.getURL("blocked.html")};
+      },
+      {
+      urls: webs,
+      types: ["main_frame", "sub_frame", "stylesheet", "script", "image", "object", "xmlhttprequest", "other"]
+      },
+      ["blocking"]
     );
       });
   });
 
-// Add a listener for when the alarm is up.
-// When the alarm is up, create a window with timer.html.
+  clearAndCreateAlarm(countdownMaxInMin,countdownMaxInMin);
+
+//----------------------- LISTENER TO DETECT POPUP TIMER EXPIRING  ----------------------------------------------------
+
+
+// Add a listener for when the alarm is up. When the alarm is up, create a window with break.html.
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (alarm.name == 'eyeRestAlarm' + date) {
     let nextAlarmTime = alarm.scheduledTime + countdownMaxInMS;
-    chrome.storage.local.set({nextAlarmTime: nextAlarmTime});
+    chrome.storage.local.set({'next': nextAlarmTime});
+    chrome.storage.local.set({'reset': true});
+    clearAlarm();
     chrome.windows.create({
       type: 'popup',
       url: 'break.html',
@@ -65,6 +78,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
     });
   }
 });
+
+//-----------------------THIS ALLOWS EXTENSION TO ACT/BE ACTIVE ON ANY PAGE  ----------------------------------------------------
 
 chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([{

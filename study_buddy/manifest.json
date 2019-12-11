@@ -1,7 +1,7 @@
 {
     "name": "Studdy Buddy",
-    "version": "0.1",
-    "description": "An extension to help you take breaks over periods of time while studying",
+    "version": "1.0",
+    "description": "An extension to help you take breaks over periods of time while studying and also blocks user selected websites to avoid distractions",
     "permissions" : ["webRequest", "webRequestBlocking",  "http://*/*","https://*/*", "declarativeContent","storage", "alarms"],
     "background": {
         "scripts": ["helpers.js", "background.js"],
